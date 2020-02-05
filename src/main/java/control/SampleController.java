@@ -58,5 +58,6 @@ public class SampleController implements Initializable {
         this.films = ((Films)jaxbUnmarshaller.unmarshal(is)).films;
         listView.setItems(observableList);
         observableList.addAll(String.valueOf(films));
+
     }
 }
