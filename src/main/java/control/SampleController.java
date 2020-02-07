@@ -47,7 +47,19 @@ public class SampleController implements Initializable {
 
     }
 
+    void loadFilms(){
+        listView.setItems(observableList);
+        while (films.size()>i) {
+            observableList.addAll(String.valueOf(films.get(i++)));
+        }
+    }
+
     private List<Film> films;
+    private List<Film> cinemas;
+    private List<Film> sesions;
+    // http://gencat.cat/llengua/cinema/cinemes.xml
+    //http://www.gencat.cat/llengua/cinema/film_sessions.xml
+
     void metodo () throws IOException, JAXBException {
         URL url = new URL("http://gencat.cat/llengua/cinema/provacin.xml");
         HttpURLConnection http = (HttpURLConnection) url.openConnection();
@@ -56,8 +68,5 @@ public class SampleController implements Initializable {
         JAXBContext jaxbContext = JAXBContext.newInstance(Films.class);
         Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
         this.films = ((Films)jaxbUnmarshaller.unmarshal(is)).films;
-        listView.setItems(observableList);
-        observableList.addAll(String.valueOf(films));
-
     }
 }
