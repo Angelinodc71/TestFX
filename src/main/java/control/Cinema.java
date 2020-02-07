@@ -9,15 +9,15 @@ import java.util.List;
 
 @XmlRootElement(name ="dataroot")
 @XmlAccessorType(XmlAccessType.PROPERTY)
-class Cinemes {
+class Cinemas {
 
-    @XmlElement(name = "CINEMES")
-    public List<Cinema> cinemes;
+    @XmlElement(name = "CINEMAS")
+    public List<Cinema> cinemas;
 
     @Override
     public String toString() {
-        return "Cinemes{" +
-                "cinemes=" + cinemes +
+        return "Cinemas{" +
+                "cinemas=" + cinemas +
                 '}';
     }
 }
