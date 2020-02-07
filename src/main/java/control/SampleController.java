@@ -21,16 +21,26 @@ import java.util.stream.Collectors;
 public class SampleController implements Initializable {
     int i = 0;
     ObservableList<String> observableList = FXCollections.observableArrayList();
+
+    private List<Film> films;
+    private List<Cinema> cinemas;
+    private List<Sessions> sesions;
+    private List<Film> cicle;
     @FXML
     ListView<String> listView;
+
     List<String> listaFilmsTitulo;
-    @FXML
+    ReaderXML readerXML;
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
-            metodo();
-        } catch (IOException | JAXBException e) {
+            loadFilms();
+            loadCinemas();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JAXBException e) {
             e.printStackTrace();
         }
         i=0;
@@ -44,32 +54,36 @@ public class SampleController implements Initializable {
 
     }
 
-    void loadFilms(){
 
+
+    void loadFilms() throws IOException, JAXBException {
+        readerXML = new ReaderXML();
+        readerXML.listFilms();
+        films = readerXML.getFilms();
+        System.out.println(readerXML.getFilms());
         listView.setItems(observableList);
         listaFilmsTitulo = films.stream().map(films -> films.getTitol()).collect(Collectors.toList());
 
         for (String titulosFilm: listaFilmsTitulo) {
             observableList.addAll(String.valueOf(titulosFilm));
         }
-
     }
 
-    private List<Film> films;
-    private List<Film> cinemas;
-    private List<Sessions> sesions;
-    private List<Film> cicle;
+
+    void loadCinemas() throws IOException, JAXBException {
+        readerXML = new ReaderXML();
+        readerXML.listCinemas();
+        cinemas = readerXML.getCinemas();
+        System.out.println(readerXML.getCinemas());
+        listView.setItems(observableList);
+        listaFilmsTitulo = cinemas.stream().map(cinema -> cinema.getCinenom()).collect(Collectors.toList());
+
+        for (String titulosCinema: listaFilmsTitulo) {
+            observableList.addAll(String.valueOf(titulosCinema));
+        }
+    }
     // http://gencat.cat/llengua/cinema/cinemes.xml
     //http://www.gencat.cat/llengua/cinema/film_sessions.xml
 
-    void metodo () throws IOException, JAXBException {
-        URL url = new URL("http://gencat.cat/llengua/cinema/provacin.xml");
-        HttpURLConnection http = (HttpURLConnection) url.openConnection();
-        http.addRequestProperty("User-Agent", "Mozilla/4.76");
-        InputStream is = http.getInputStream();
-        JAXBContext jaxbContext = JAXBContext.newInstance(Films.class);
-        Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-        this.films = ((Films)jaxbUnmarshaller.unmarshal(is)).films;
-        loadFilms();
-    }
+
 }
