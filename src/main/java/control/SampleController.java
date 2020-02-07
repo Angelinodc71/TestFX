@@ -1,13 +1,10 @@
 package control;
 
-import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
-import javafx.scene.control.SelectionMode;
 import javafx.scene.input.MouseEvent;
 
 import javax.xml.bind.JAXBContext;
@@ -19,14 +16,15 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 public class SampleController implements Initializable {
     int i = 0;
     ObservableList<String> observableList = FXCollections.observableArrayList();
     @FXML
     ListView<String> listView;
+    List<String> listaFilmsTitulo;
     @FXML
-    Button btn001;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -43,15 +41,19 @@ public class SampleController implements Initializable {
 //        for (int j = 0; j < films.size() ; j++) {
 //
 //        }
-        btn001.setText(String.valueOf(films.get(i++)));
 
     }
 
     void loadFilms(){
+
         listView.setItems(observableList);
-        while (films.size()>i) {
-            observableList.addAll(String.valueOf(films.get(i++)));
+        listaFilmsTitulo = films.stream().map(films -> films.getTitol()).collect(Collectors.toList());
+
+        for (String titulosFilm: listaFilmsTitulo) {
+            observableList.addAll(String.valueOf(titulosFilm));
+
         }
+
     }
 
     private List<Film> films;
@@ -68,5 +70,6 @@ public class SampleController implements Initializable {
         JAXBContext jaxbContext = JAXBContext.newInstance(Films.class);
         Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
         this.films = ((Films)jaxbUnmarshaller.unmarshal(is)).films;
+        loadFilms();
     }
 }
