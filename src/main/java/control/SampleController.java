@@ -51,14 +51,14 @@ public class SampleController implements Initializable {
 
         for (String titulosFilm: listaFilmsTitulo) {
             observableList.addAll(String.valueOf(titulosFilm));
-
         }
 
     }
 
     private List<Film> films;
     private List<Film> cinemas;
-    private List<Film> sesions;
+    private List<Sessions> sesions;
+    private List<Film> cicle;
     // http://gencat.cat/llengua/cinema/cinemes.xml
     //http://www.gencat.cat/llengua/cinema/film_sessions.xml
 
