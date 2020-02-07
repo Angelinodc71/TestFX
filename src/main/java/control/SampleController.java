@@ -5,6 +5,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 
 import javax.xml.bind.JAXBContext;
@@ -29,6 +30,9 @@ public class SampleController implements Initializable {
     @FXML
     ListView<String> listView;
 
+    @FXML
+    TextField textField;
+
     List<String> listaFilmsTitulo;
     ReaderXML readerXML;
 
@@ -37,7 +41,6 @@ public class SampleController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
             loadFilms();
-            loadCinemas();
         } catch (IOException e) {
             e.printStackTrace();
         } catch (JAXBException e) {
@@ -48,9 +51,8 @@ public class SampleController implements Initializable {
     }
 
     public void onClick(MouseEvent mouseEvent) throws IOException, JAXBException {
-//        for (int j = 0; j < films.size() ; j++) {
-//
-//        }
+        ObservableList<String> film= listView.getSelectionModel().getSelectedItems();
+        textField.setText(String.valueOf(film));
 
     }
 

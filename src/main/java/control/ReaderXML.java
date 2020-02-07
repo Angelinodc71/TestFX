@@ -31,9 +31,9 @@ public class ReaderXML {
         HttpURLConnection http = (HttpURLConnection) url.openConnection();
         http.addRequestProperty("User-Agent", "Mozilla/4.76");
         InputStream is = http.getInputStream();
-        JAXBContext jaxbContext = JAXBContext.newInstance(Cinemes.class);
+        JAXBContext jaxbContext = JAXBContext.newInstance(Cinemas.class);
         Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-        this.cinemas = ((Cinemes)jaxbUnmarshaller.unmarshal(is)).cinemes;
+        this.cinemas = ((Cinemas)jaxbUnmarshaller.unmarshal(is)).cinemas;
     }
 
 
