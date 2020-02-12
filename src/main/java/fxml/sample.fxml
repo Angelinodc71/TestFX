@@ -1,24 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.image.*?>
+<?import javafx.scene.chart.*?>
+<?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<TabPane fx:id="tabPane" prefHeight="600.0" prefWidth="800.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="control.SampleController">
+<TabPane fx:id="tabPane" prefHeight="753.0" prefWidth="736.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="control.SampleController">
    <tabs>
-      <Tab text="Tab 1" />
+      <Tab text="Tab 1">
+         <content>
+            <PieChart />
+         </content></Tab>
       <Tab text="Tab 2">
          <content>
-            <AnchorPane prefHeight="373.0" prefWidth="800.0">
+            <AnchorPane prefHeight="200.0" prefWidth="200.0">
                <children>
-                  <ListView fx:id="listView" onMouseClicked="#onClick" prefHeight="392.0" prefWidth="800.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                  <ImageView fx:id="imageFilm" fitHeight="150.0" fitWidth="200.0" layoutX="14.0" layoutY="406.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="627.6886596679688" AnchorPane.topAnchor="403.0">
-                     <image>
-                        <Image url="@../../../../../../Baixades/basketball2.png" />
-                     </image>
-                  </ImageView>
-                  <Text fx:id="textTitulo" layoutX="226.0" layoutY="418.0" text="No hay ninguna pelicula seleccionada" AnchorPane.bottomAnchor="145.93408203125" AnchorPane.leftAnchor="226.0" AnchorPane.rightAnchor="328.0029296875" AnchorPane.topAnchor="405.06591796875" />
+                  <ListView fx:id="listView" onMouseClicked="#onClick" prefHeight="570.0" prefWidth="736.0" />
+                  <Text fx:id="textField" layoutX="142.0" layoutY="613.0" text="No hay ninguna pelicula seleccionada" />
                </children>
             </AnchorPane>
          </content></Tab>
