@@ -6,17 +6,13 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TabPane;
-import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 
-import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -34,15 +30,18 @@ public class SampleController implements Initializable {
     ListView<String> listView;
 
     @FXML
-    Text textField;
+    Text textTitulo;
 
+    @FXML
+    ImageView imageFilm;
     @FXML
     TabPane tabPane;
 
     List<String> listaFilmsTitulo;
+    List<String> listaFilmsCartell;
     ReaderXML readerXML;
 
-
+    Image image;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
@@ -58,8 +57,9 @@ public class SampleController implements Initializable {
 
     public void onClick(MouseEvent mouseEvent) throws IOException, JAXBException {
         ObservableList<String> film= listView.getSelectionModel().getSelectedItems();
-        textField.setText(String.valueOf(film));
 
+        textTitulo.setText(String.valueOf(film));
+        imageFilm.setImage(new Image("http://www.gencat.cat/llengua/cinema/"+film));
     }
 
 
@@ -71,9 +71,13 @@ public class SampleController implements Initializable {
         System.out.println(readerXML.getFilms());
         listView.setItems(observableList);
         listaFilmsTitulo = films.stream().map(films -> films.getTitol()).collect(Collectors.toList());
+        listaFilmsCartell = films.stream().map(films -> films.getCartell()).collect(Collectors.toList());
 
         for (String titulosFilm: listaFilmsTitulo) {
             observableList.addAll(String.valueOf(titulosFilm));
+        }
+        for (String fotosFilm: listaFilmsCartell) {
+            observableList.addAll(String.valueOf(fotosFilm));
         }
     }
 
