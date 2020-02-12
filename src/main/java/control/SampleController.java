@@ -5,8 +5,11 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.text.Text;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -31,7 +34,10 @@ public class SampleController implements Initializable {
     ListView<String> listView;
 
     @FXML
-    TextField textField;
+    Text textField;
+
+    @FXML
+    TabPane tabPane;
 
     List<String> listaFilmsTitulo;
     ReaderXML readerXML;

@@ -3,11 +3,19 @@
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="800.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="control.SampleController">
-   <children>
-      <ListView fx:id="listView" layoutX="14.0" layoutY="14.0" prefHeight="482.0" prefWidth="570.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0" />
-      <TextField fx:id="textField" layoutX="169.0" layoutY="517.0" onMouseClicked="#onClick" prefHeight="98.0" prefWidth="338.0" AnchorPane.leftAnchor="169.0" AnchorPane.topAnchor="517.0" />
-   </children>
-
-</AnchorPane>
+<TabPane fx:id="tabPane" prefHeight="753.0" prefWidth="736.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="control.SampleController">
+   <tabs>
+      <Tab text="Tab 1" />
+      <Tab text="Tab 2">
+         <content>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0">
+               <children>
+                  <ListView fx:id="listView" onMouseClicked="#onClick" prefHeight="570.0" prefWidth="736.0" />
+                  <Text fx:id="textField" layoutX="142.0" layoutY="613.0" text="No hay ninguna pelicula seleccionada" />
+               </children>
+            </AnchorPane>
+         </content></Tab>
+   </tabs>
+</TabPane>
