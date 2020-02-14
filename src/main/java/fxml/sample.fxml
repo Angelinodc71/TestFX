@@ -10,7 +10,7 @@
    <tabs>
       <Tab text="Tab 1">
          <content>
-            <PieChart />
+            <PieChart fx:id="pieChart"/>
          </content></Tab>
       <Tab text="Tab 2">
          <content>
