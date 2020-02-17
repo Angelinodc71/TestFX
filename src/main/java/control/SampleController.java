@@ -1,10 +1,11 @@
 package control;
 
+import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.chart.PieChart;
+import javafx.scene.chart.*;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TabPane;
@@ -44,6 +45,13 @@ public class SampleController implements Initializable {
     PieChart pieChart;
 
     @FXML
+    BarChart<?,?> barChart;
+    @FXML
+    CategoryAxis x;
+    @FXML
+    NumberAxis y;
+
+    @FXML
     Text textField;
 
     @FXML
@@ -61,9 +69,12 @@ public class SampleController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
             loadFilms();
+            loadCinemas();
             dataCharts = FXCollections.observableArrayList();
             loadDataPieChart();
             pieChart.setData(dataCharts);
+            loadDataBarChart();
+            barChart.setTitle("Numero de cinemas");
 //            Label label = new Label();
 //
 //            pieChart.getData().stream().forEach( data ->{
@@ -82,10 +93,16 @@ public class SampleController implements Initializable {
     }
 
     public void onClick(MouseEvent mouseEvent) throws IOException, JAXBException {
-        ObservableList<String> film= listView.getSelectionModel().getSelectedItems();
+        String film= listView.getSelectionModel().getSelectedItem();
         textField.setText(String.valueOf(film));
         System.out.println();
-        img01.setImage(new Image("http://gencat.cat/llengua/cinema/"+film.get(Integer.parseInt(listView.getSelectionModel().getSelectedItem()))));
+        for (Film f: films) {
+            System.out.println(f.getTitol());
+            if (f.getTitol().equals(film)){
+                img01.setImage(new Image("http://gencat.cat/llengua/cinema/"+f.getCartell()));
+                System.out.println(f.getCartell());
+            }
+        }
 
     }
 
@@ -94,8 +111,17 @@ public class SampleController implements Initializable {
                 .collect(Collectors.groupingBy(Film::getAny));
         resul.forEach((k,v) -> dataCharts.addAll(new PieChart.Data(k, v.size())));
 
+    }
 
+    void loadDataBarChart(){
+        XYChart.Series set1 = new XYChart.Series<>();
 
+        Map<String, List<Cinema>> resul = cinemas.stream()
+                .collect(Collectors.groupingBy(Cinema::getProvincia));
+        resul.forEach((k,v) -> set1.getData().add(new XYChart.Data(k,v.size())));
+
+        barChart.getData().addAll(set1);
+        set1.setName("Provincies");
     }
 
     void loadFilms() throws IOException, JAXBException {
@@ -105,11 +131,6 @@ public class SampleController implements Initializable {
         System.out.println(readerXML.getFilms());
         listView.setItems(observableList);
         listaFilmsTitulo = films.stream().map(films -> films.getTitol()).collect(Collectors.toList());
-        listaFilmsCartell = films.stream().map(films -> films.getCartell()).collect(Collectors.toList());
-
-        for (String titulosFilm: listaFilmsTitulo) {
-            observableList.addAll(String.valueOf(titulosFilm));
-        }
 
         for (String titulosFilm: listaFilmsTitulo) {
             observableList.addAll(String.valueOf(titulosFilm));

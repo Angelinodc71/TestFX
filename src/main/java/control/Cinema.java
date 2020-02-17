@@ -11,7 +11,7 @@ import java.util.List;
 @XmlAccessorType(XmlAccessType.PROPERTY)
 class Cinemas {
 
-    @XmlElement(name = "CINEMAS")
+    @XmlElement(name = "CINEMES")
     public List<Cinema> cinemas;
 
     @Override
