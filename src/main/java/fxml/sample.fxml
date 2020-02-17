@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.chart.*?>
 <?import java.lang.*?>
+<?import javafx.scene.chart.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
@@ -10,14 +11,15 @@
    <tabs>
       <Tab text="Tab 1">
          <content>
-            <PieChart fx:id="pieChart"/>
+            <PieChart fx:id="pieChart" />
          </content></Tab>
       <Tab text="Tab 2">
          <content>
             <AnchorPane prefHeight="200.0" prefWidth="200.0">
                <children>
                   <ListView fx:id="listView" onMouseClicked="#onClick" prefHeight="570.0" prefWidth="736.0" />
-                  <Text fx:id="textField" layoutX="142.0" layoutY="613.0" text="No hay ninguna pelicula seleccionada" />
+                  <Text fx:id="textField" layoutX="245.0" layoutY="649.0" text="No hay ninguna pelicula seleccionada" />
+                  <ImageView fx:id="img01" fitHeight="150.0" fitWidth="200.0" layoutX="14.0" layoutY="570.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="522.0" AnchorPane.topAnchor="570.0" />
                </children>
             </AnchorPane>
          </content></Tab>

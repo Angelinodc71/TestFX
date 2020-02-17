@@ -5,9 +5,12 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.PieChart;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
@@ -46,7 +49,11 @@ public class SampleController implements Initializable {
     @FXML
     TabPane tabPane;
 
+    @FXML
+    ImageView img01;
+
     List<String> listaFilmsTitulo;
+    List<String> listaFilmsCartell;
     ReaderXML readerXML;
 
 
@@ -57,6 +64,14 @@ public class SampleController implements Initializable {
             dataCharts = FXCollections.observableArrayList();
             loadDataPieChart();
             pieChart.setData(dataCharts);
+//            Label label = new Label();
+//
+//            pieChart.getData().stream().forEach( data ->{
+//                data.getNode().addEventFilter(MouseEvent.ANY, e ->{
+//                    int value = (int) data.getPieValue();
+//                    label.setText(String.valueOf(value));
+//                });
+//            });
         } catch (IOException e) {
             e.printStackTrace();
         } catch (JAXBException e) {
@@ -69,12 +84,17 @@ public class SampleController implements Initializable {
     public void onClick(MouseEvent mouseEvent) throws IOException, JAXBException {
         ObservableList<String> film= listView.getSelectionModel().getSelectedItems();
         textField.setText(String.valueOf(film));
+        System.out.println();
+        img01.setImage(new Image("http://gencat.cat/llengua/cinema/"+film.get(Integer.parseInt(listView.getSelectionModel().getSelectedItem()))));
+
     }
 
     void loadDataPieChart(){
         Map<String, List<Film>> resul = films.stream()
                 .collect(Collectors.groupingBy(Film::getAny));
         resul.forEach((k,v) -> dataCharts.addAll(new PieChart.Data(k, v.size())));
+
+
 
     }
 
@@ -85,6 +105,11 @@ public class SampleController implements Initializable {
         System.out.println(readerXML.getFilms());
         listView.setItems(observableList);
         listaFilmsTitulo = films.stream().map(films -> films.getTitol()).collect(Collectors.toList());
+        listaFilmsCartell = films.stream().map(films -> films.getCartell()).collect(Collectors.toList());
+
+        for (String titulosFilm: listaFilmsTitulo) {
+            observableList.addAll(String.valueOf(titulosFilm));
+        }
 
         for (String titulosFilm: listaFilmsTitulo) {
             observableList.addAll(String.valueOf(titulosFilm));
