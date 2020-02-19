@@ -33,6 +33,16 @@
                   <ImageView fx:id="img01" fitHeight="150.0" fitWidth="200.0" layoutX="14.0" layoutY="570.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="522.0" AnchorPane.topAnchor="570.0" />
                </children>
             </AnchorPane>
-         </content></Tab>
+         </content>
+      </Tab>
+       <Tab text="Tab 3">
+           <content>
+               <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                   <children>
+                       <ListView fx:id="listView2" onMouseClicked="#onClickFilms" prefHeight="570.0" prefWidth="736.0" />
+                   </children>
+               </AnchorPane>
+           </content>
+       </Tab>
    </tabs>
 </TabPane>

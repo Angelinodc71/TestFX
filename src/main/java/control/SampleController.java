@@ -1,6 +1,5 @@
 package control;
 
-import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -31,8 +30,19 @@ import java.util.stream.Collectors;
 public class SampleController implements Initializable {
     int i = 0;
     ObservableList<String> observableList = FXCollections.observableArrayList();
+    ObservableList<String> observableList2 = FXCollections.observableArrayList();
+    ObservableList<String> observableList3 = FXCollections.observableArrayList();
+    ObservableList<String> observableList4 = FXCollections.observableArrayList();
+
+
     private ObservableList<PieChart.Data> dataCharts;
 
+    // Titol, Direcció i Sinopsi -- PANTALLA FILMS
+
+    //FILM - SESSIO - getIdFilm()
+    //SESSIO - CINEMA - getCineId()
+    //SESSIO - CICLE - getCicleId()
+    // Elegir cine, salen un monton de pelis de ese cine.
 
     private List<Film> films;
     private List<Cinema> cinemas;
@@ -40,6 +50,12 @@ public class SampleController implements Initializable {
     private List<Film> cicle;
     @FXML
     ListView<String> listView;
+
+    @FXML
+    ListView<String> listView2_1;
+
+    @FXML
+    ListView<String> listView2;
 
     @FXML
     PieChart pieChart;
@@ -61,15 +77,14 @@ public class SampleController implements Initializable {
     ImageView img01;
 
     List<String> listaFilmsTitulo;
-    List<String> listaFilmsCartell;
     ReaderXML readerXML;
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
-            loadFilms();
             loadCinemas();
+            loadFilms();
             dataCharts = FXCollections.observableArrayList();
             loadDataPieChart();
             pieChart.setData(dataCharts);
@@ -100,7 +115,6 @@ public class SampleController implements Initializable {
             System.out.println(f.getTitol());
             if (f.getTitol().equals(film)){
                 img01.setImage(new Image("http://gencat.cat/llengua/cinema/"+f.getCartell()));
-                System.out.println(f.getCartell());
             }
         }
 
@@ -128,7 +142,7 @@ public class SampleController implements Initializable {
         readerXML = new ReaderXML();
         readerXML.listFilms();
         films = readerXML.getFilms();
-        System.out.println(readerXML.getFilms());
+
         listView.setItems(observableList);
         listaFilmsTitulo = films.stream().map(films -> films.getTitol()).collect(Collectors.toList());
 
@@ -142,14 +156,17 @@ public class SampleController implements Initializable {
         readerXML = new ReaderXML();
         readerXML.listCinemas();
         cinemas = readerXML.getCinemas();
-        System.out.println(readerXML.getCinemas());
 
-        listView.setItems(observableList);
+        listView2.setItems(observableList2);
         listaFilmsTitulo = cinemas.stream().map(cinema -> cinema.getCinenom()).collect(Collectors.toList());
 
         for (String titulosCinema: listaFilmsTitulo) {
-            observableList.addAll(String.valueOf(titulosCinema));
+            observableList2.addAll(String.valueOf(titulosCinema));
         }
+    }
+
+    public void onClickFilms(MouseEvent mouseEvent) {
+
     }
     // http://gencat.cat/llengua/cinema/cinemes.xml
     //http://www.gencat.cat/llengua/cinema/film_sessions.xml
