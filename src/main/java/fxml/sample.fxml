@@ -39,7 +39,18 @@
            <content>
                <AnchorPane prefHeight="200.0" prefWidth="200.0">
                    <children>
-                       <ListView fx:id="listView2" onMouseClicked="#onClickFilms" prefHeight="570.0" prefWidth="736.0" />
+                       <ListView fx:id="listView2" onMouseClicked="#onClickCinemas" prefHeight="570.0" prefWidth="523.0" />
+                       <ListView fx:id="listView2_1" layoutX="524.0" prefHeight="570.0" prefWidth="474.0" />
+                   </children>
+               </AnchorPane>
+           </content>
+       </Tab>
+       <Tab text="Tab 3">
+           <content>
+               <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                   <children>
+                       <ListView fx:id="listView3" onMouseClicked="#onClickCicles" prefHeight="570.0" prefWidth="523.0" />
+                       <ListView fx:id="listView3_1" layoutX="524.0" prefHeight="570.0" prefWidth="474.0" />
                    </children>
                </AnchorPane>
            </content>

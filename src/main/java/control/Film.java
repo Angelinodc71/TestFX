@@ -16,8 +16,8 @@ class Films {
 
     @Override
     public String toString() {
-        return "control.Films{" +
-                "films=" + films +
+        return "Films{" +
+                "film=" + films +
                 '}';
     }
 }

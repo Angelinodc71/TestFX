@@ -5,23 +5,17 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.*;
-import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TabPane;
-import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 
-import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -30,10 +24,12 @@ import java.util.stream.Collectors;
 public class SampleController implements Initializable {
     int i = 0;
     ObservableList<String> observableList = FXCollections.observableArrayList();
-    ObservableList<String> observableList2 = FXCollections.observableArrayList();
-    ObservableList<String> observableList3 = FXCollections.observableArrayList();
-    ObservableList<String> observableList4 = FXCollections.observableArrayList();
 
+    ObservableList<String> observableList2 = FXCollections.observableArrayList();
+
+    ObservableList<String> observableList3 = FXCollections.observableArrayList();
+
+    ObservableList<String> observableList4 = FXCollections.observableArrayList();
 
     private ObservableList<PieChart.Data> dataCharts;
 
@@ -46,16 +42,22 @@ public class SampleController implements Initializable {
 
     private List<Film> films;
     private List<Cinema> cinemas;
-    private List<Sessions> sesions;
-    private List<Film> cicle;
+    private List<Session> sessions;
+    private List<Cicle> cicles;
     @FXML
     ListView<String> listView;
+
+    @FXML
+    ListView<String> listView2;
 
     @FXML
     ListView<String> listView2_1;
 
     @FXML
-    ListView<String> listView2;
+    ListView<String> listView3;
+
+    @FXML
+    ListView<String> listView3_1;
 
     @FXML
     PieChart pieChart;
@@ -76,7 +78,9 @@ public class SampleController implements Initializable {
     @FXML
     ImageView img01;
 
-    List<String> listaFilmsTitulo;
+    List<String> listaTitulos;
+    List<String> listaFechasSession;
+
     ReaderXML readerXML;
 
 
@@ -85,6 +89,8 @@ public class SampleController implements Initializable {
         try {
             loadCinemas();
             loadFilms();
+            loadSessions();
+            loadCicles();
             dataCharts = FXCollections.observableArrayList();
             loadDataPieChart();
             pieChart.setData(dataCharts);
@@ -104,19 +110,6 @@ public class SampleController implements Initializable {
             e.printStackTrace();
         }
         i=0;
-
-    }
-
-    public void onClick(MouseEvent mouseEvent) throws IOException, JAXBException {
-        String film= listView.getSelectionModel().getSelectedItem();
-        textField.setText(String.valueOf(film));
-        System.out.println();
-        for (Film f: films) {
-            System.out.println(f.getTitol());
-            if (f.getTitol().equals(film)){
-                img01.setImage(new Image("http://gencat.cat/llengua/cinema/"+f.getCartell()));
-            }
-        }
 
     }
 
@@ -144,13 +137,24 @@ public class SampleController implements Initializable {
         films = readerXML.getFilms();
 
         listView.setItems(observableList);
-        listaFilmsTitulo = films.stream().map(films -> films.getTitol()).collect(Collectors.toList());
+        listaTitulos = films.stream().map(films -> films.getTitol()).collect(Collectors.toList());
 
-        for (String titulosFilm: listaFilmsTitulo) {
+        for (String titulosFilm: listaTitulos) {
             observableList.addAll(String.valueOf(titulosFilm));
         }
     }
 
+    void loadSessions() throws IOException, JAXBException {
+        readerXML = new ReaderXML();
+        readerXML.listSessions();
+        sessions = readerXML.getSesions();
+
+        listaFechasSession = sessions.stream().map(session -> session.getSes_data()).collect(Collectors.toList());
+
+        for (String fechasSession: listaFechasSession) {
+            observableList3.addAll(fechasSession);
+        }
+    }
 
     void loadCinemas() throws IOException, JAXBException {
         readerXML = new ReaderXML();
@@ -158,18 +162,110 @@ public class SampleController implements Initializable {
         cinemas = readerXML.getCinemas();
 
         listView2.setItems(observableList2);
-        listaFilmsTitulo = cinemas.stream().map(cinema -> cinema.getCinenom()).collect(Collectors.toList());
+        listaTitulos = cinemas.stream().map(cinema -> cinema.getCinenom()).collect(Collectors.toList());
 
-        for (String titulosCinema: listaFilmsTitulo) {
-            observableList2.addAll(String.valueOf(titulosCinema));
+        for (String titulosCinema: listaTitulos) {
+            observableList2.addAll(titulosCinema);
         }
     }
 
-    public void onClickFilms(MouseEvent mouseEvent) {
+    void loadCicles() throws IOException, JAXBException {
+        readerXML = new ReaderXML();
+        readerXML.listCicles();
+        cicles = readerXML.getCicle();
 
+        listView3.setItems(observableList4);
+        listaTitulos = cicles.stream().map(cicle -> cicle.getCiclenom()).collect(Collectors.toList());
+
+        for (String titulosCicles: listaTitulos) {
+            observableList4.addAll(titulosCicles);
+        }
     }
-    // http://gencat.cat/llengua/cinema/cinemes.xml
-    //http://www.gencat.cat/llengua/cinema/film_sessions.xml
 
+    //TODO mvn compile assembly:single
+
+    public void onClick(MouseEvent mouseEvent) throws IOException, JAXBException {
+        String film= listView.getSelectionModel().getSelectedItem();
+        textField.setText(String.valueOf(film));
+        for (Film f: films) {
+            System.out.println(f.getTitol());
+            if (f.getTitol().equals(film)){
+                img01.setImage(new Image("http://gencat.cat/llengua/cinema/"+f.getCartell()));
+            }
+        }
+    }
+
+    public void onClickCinemas(MouseEvent mouseEvent) {
+        //Lo declaro  aqui porque si lo declaro arriba se añaden y yo quiero que cada
+        // observableList sea del respectivo Cine
+        ObservableList<String> observableList3_1 = FXCollections.observableArrayList();
+        List<String> listaTitulosSesData = new ArrayList<>();
+
+        //Busco el titulo de ese cine al que he clicado
+        String cinema = listView2.getSelectionModel().getSelectedItem();
+        for (Cinema c: cinemas) {
+            if (c.getCinenom().equals(cinema)){
+                System.out.println(c.cineid);
+                //Comparo el id del cine que he clicado con el de las sesiones
+                for (Session s: sessions) {
+                    if (s.getCineid().equals(c.cineid)) {
+                        //Invoco a un metodo y lo junto con la fecha de la session en un list
+                        listaTitulosSesData.add(searchIdFilm(s.getIdfilm())+" "+s.getSes_data());
+                    }
+                }
+            }
+        }
+        //Aqui los añado al observable list
+        for (String titulosFilmSesData: listaTitulosSesData) {
+            observableList3_1.addAll(titulosFilmSesData);
+        }
+        listView2_1.setItems(observableList3_1);
+
+        System.out.println(observableList3_1);
+    }
+
+
+    public void onClickCicles(MouseEvent mouseEvent) {
+        ObservableList<String> observableList4_1 = FXCollections.observableArrayList();
+        List<String> listaTitulos = new ArrayList<>();
+
+        String cicle = listView3.getSelectionModel().getSelectedItem();
+        for (Cicle e : cicles) {
+            if (e.getCiclenom().equals(cicle)){
+            System.out.println(e.getCicleid());}
+            for (Session s:sessions) {
+                if(s.getCicleid().equals(e.getCicleid())){
+                    listaTitulos.add(searchIdCinema(s.getCineid()));
+                }
+            }
+        }
+        //Aqui los añado al observable list
+        for (String titulosFilmSesData: listaTitulos) {
+            observableList4_1.addAll(titulosFilmSesData);
+        }
+        listView3_1.setItems(observableList4_1);
+    }
+
+    public String searchIdFilm(String idFilm){
+        // Busco por los id films que le paso y si coinciden
+        // retorno el titulo de la pelicula
+        for (Film f:films) {
+            if (idFilm.equals((f.getIdfilm()))) {
+                return f.getTitol();
+            }
+        }
+        return null;
+    }
+
+    public String searchIdCinema(String idCinema){
+        // Busco por los id films que le paso y si coinciden
+        // retorno el titulo de la pelicula
+        for (Cinema c:cinemas) {
+            if (idCinema.equals((c.getCineid()))) {
+                return c.getCinenom();
+            }
+        }
+        return null;
+    }
 
 }

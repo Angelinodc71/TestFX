@@ -1,6 +1,5 @@
 package control;
 
-
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -13,17 +12,18 @@ import java.util.List;
 
 class Sessions {
     @XmlElement(name = "SESSIONS")
-    public List<Session> sesions;
+    public List<Session> sessions;
 
     @Override
     public String toString() {
-        return "Session{" +
-                "sesions=" + sesions +
+        return "Sessions{" +
+                "sesion=" + sessions +
                 '}';
     }
 }
 
 public class Session implements Serializable {
+
     private static final long serialVersionUID = 1L;
 
     @XmlElement(name = "IDFILM")
@@ -50,4 +50,74 @@ public class Session implements Serializable {
     String preu;
     @XmlElement(name = "ORDRESESSIO")
     String ordresessio;
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    public String getIdfilm() {
+        return idfilm;
+    }
+
+    public String getSes_id() {
+        return ses_id;
+    }
+
+    public String getCineid() {
+        return cineid;
+    }
+
+    public String getTitol() {
+        return titol;
+    }
+
+    public String getSes_data() {
+        return ses_data;
+    }
+
+    public String getCinenom() {
+        return cinenom;
+    }
+
+    public String getLocalitat() {
+        return localitat;
+    }
+
+    public String getComarca() {
+        return comarca;
+    }
+
+    public String getCicleid() {
+        return cicleid;
+    }
+
+    public String getVer() {
+        return ver;
+    }
+
+    public String getPreu() {
+        return preu;
+    }
+
+    public String getOrdresessio() {
+        return ordresessio;
+    }
+
+    @Override
+    public String toString() {
+        return "Session{" +
+                "idfilm='" + idfilm + '\'' +
+                ", ses_id='" + ses_id + '\'' +
+                ", cineid='" + cineid + '\'' +
+                ", titol='" + titol + '\'' +
+                ", ses_data='" + ses_data + '\'' +
+                ", cinenom='" + cinenom + '\'' +
+                ", localitat='" + localitat + '\'' +
+                ", comarca='" + comarca + '\'' +
+                ", cicleid='" + cicleid + '\'' +
+                ", ver='" + ver + '\'' +
+                ", preu='" + preu + '\'' +
+                ", ordresessio='" + ordresessio + '\'' +
+                '}';
+    }
 }

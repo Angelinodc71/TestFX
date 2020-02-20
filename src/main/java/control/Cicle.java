@@ -33,4 +33,34 @@ public class Cicle implements Serializable {
     String cicleinfo;
     @XmlElement(name = "IMGCICLE")
     String imgcicle;
+
+    @Override
+    public String toString() {
+        return "Cicle{" +
+                "cicleid='" + cicleid + '\'' +
+                ", ciclenom='" + ciclenom + '\'' +
+                ", cicleinfo='" + cicleinfo + '\'' +
+                ", imgcicle='" + imgcicle + '\'' +
+                '}';
+    }
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    public String getCicleid() {
+        return cicleid;
+    }
+
+    public String getCiclenom() {
+        return ciclenom;
+    }
+
+    public String getCicleinfo() {
+        return cicleinfo;
+    }
+
+    public String getImgcicle() {
+        return imgcicle;
+    }
 }
