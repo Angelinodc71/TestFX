@@ -10,9 +10,14 @@ import javafx.scene.control.TabPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaView;
 import javafx.scene.text.Text;
+import javafx.scene.web.WebView;
 
 import javax.xml.bind.JAXBException;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -76,12 +81,20 @@ public class SampleController implements Initializable {
     TabPane tabPane;
 
     @FXML
+    WebView webView;
+
+
+    @FXML
     ImageView img01;
 
     List<String> listaTitulos;
     List<String> listaFechasSession;
+    List<String> listaTrailers;
 
     ReaderXML readerXML;
+
+    Media media;
+    MediaPlayer mediaPlayer;
 
 
     @Override
@@ -125,6 +138,7 @@ public class SampleController implements Initializable {
 
         Map<String, List<Cinema>> resul = cinemas.stream()
                 .collect(Collectors.groupingBy(Cinema::getProvincia));
+        resul.remove("--");
         resul.forEach((k,v) -> set1.getData().add(new XYChart.Data(k,v.size())));
 
         barChart.getData().addAll(set1);
@@ -138,10 +152,16 @@ public class SampleController implements Initializable {
 
         listView.setItems(observableList);
         listaTitulos = films.stream().map(films -> films.getTitol()).collect(Collectors.toList());
+        listaTrailers = films.stream().map(films -> films.getTrailer()).collect(Collectors.toList());
 
         for (String titulosFilm: listaTitulos) {
             observableList.addAll(String.valueOf(titulosFilm));
         }
+
+
+
+
+
     }
 
     void loadSessions() throws IOException, JAXBException {
@@ -186,13 +206,16 @@ public class SampleController implements Initializable {
 
     public void onClick(MouseEvent mouseEvent) throws IOException, JAXBException {
         String film= listView.getSelectionModel().getSelectedItem();
-        textField.setText(String.valueOf(film));
         for (Film f: films) {
             System.out.println(f.getTitol());
             if (f.getTitol().equals(film)){
                 img01.setImage(new Image("http://gencat.cat/llengua/cinema/"+f.getCartell()));
+                textField.setText(film+"\n"+"DIRECCIO: "+f.getDireccio());
+                webView.getEngine().load("https://www.youtube.com/embed/"+f.getTrailer()+"?autoplay=1");
             }
         }
+
+
     }
 
     public void onClickCinemas(MouseEvent mouseEvent) {
@@ -232,16 +255,20 @@ public class SampleController implements Initializable {
         String cicle = listView3.getSelectionModel().getSelectedItem();
         for (Cicle e : cicles) {
             if (e.getCiclenom().equals(cicle)){
-            System.out.println(e.getCicleid());}
-            for (Session s:sessions) {
-                if(s.getCicleid().equals(e.getCicleid())){
-                    listaTitulos.add(searchIdCinema(s.getCineid()));
+            System.out.println(e.getCicleid());
+                for (Session s:sessions) {
+                    if(s.getCicleid().equals(e.getCicleid())){
+                        String valor = searchIdCinema(s.getCineid());
+                        if (valor!=null)
+                            listaTitulos.add(valor+" "+s.getSes_data());
+                    }
                 }
             }
         }
+        System.out.println(listaTitulos);
         //Aqui los añado al observable list
-        for (String titulosFilmSesData: listaTitulos) {
-            observableList4_1.addAll(titulosFilmSesData);
+        for (String titulosCines: listaTitulos) {
+            observableList4_1.addAll(titulosCines);
         }
         listView3_1.setItems(observableList4_1);
     }
