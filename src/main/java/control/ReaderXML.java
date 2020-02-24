@@ -10,6 +10,8 @@ import java.net.URL;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicIntegerArray;
 
+// En esta clase tengo lo quue me devuelven
+// llos 4 xml y lo que me devuelve cada variable con su respectivo xml
 public class ReaderXML {
     private List<Film> films;
     private List<Cinema> cinemas;

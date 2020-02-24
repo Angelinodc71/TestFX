@@ -27,7 +27,6 @@ import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 public class SampleController implements Initializable {
-    int i = 0;
     ObservableList<String> observableList = FXCollections.observableArrayList();
 
     ObservableList<String> observableList2 = FXCollections.observableArrayList();
@@ -38,12 +37,11 @@ public class SampleController implements Initializable {
 
     private ObservableList<PieChart.Data> dataCharts;
 
-    // Titol, Direcció i Sinopsi -- PANTALLA FILMS
+    // RELACION ENTRE LOS DIFERENTES XML
 
     //FILM - SESSIO - getIdFilm()
     //SESSIO - CINEMA - getCineId()
     //SESSIO - CICLE - getCicleId()
-    // Elegir cine, salen un monton de pelis de ese cine.
 
     private List<Film> films;
     private List<Cinema> cinemas;
@@ -93,10 +91,6 @@ public class SampleController implements Initializable {
 
     ReaderXML readerXML;
 
-    Media media;
-    MediaPlayer mediaPlayer;
-
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
@@ -104,47 +98,51 @@ public class SampleController implements Initializable {
             loadFilms();
             loadSessions();
             loadCicles();
+
             dataCharts = FXCollections.observableArrayList();
             loadDataPieChart();
             pieChart.setData(dataCharts);
+
             loadDataBarChart();
+            // Le doy titulo al barChart
             barChart.setTitle("Numero de cinemas");
-//            Label label = new Label();
-//
-//            pieChart.getData().stream().forEach( data ->{
-//                data.getNode().addEventFilter(MouseEvent.ANY, e ->{
-//                    int value = (int) data.getPieValue();
-//                    label.setText(String.valueOf(value));
-//                });
-//            });
         } catch (IOException e) {
             e.printStackTrace();
         } catch (JAXBException e) {
             e.printStackTrace();
         }
-        i=0;
-
     }
 
+    // Aqui cargo todos los datos en el PieChart
     void loadDataPieChart(){
+        // Guardo, agrupo y recorro el list de films y agrupo todos ellos
+        // por los años para poder ver que año se han creado más peliculas
         Map<String, List<Film>> resul = films.stream()
                 .collect(Collectors.groupingBy(Film::getAny));
+        // Recorro el map y de los años guardados en el, en el valor hago un size y este es el tamaño del Chart
         resul.forEach((k,v) -> dataCharts.addAll(new PieChart.Data(k, v.size())));
-
     }
 
+    // Aqui cargo los datos en el barChart
     void loadDataBarChart(){
         XYChart.Series set1 = new XYChart.Series<>();
-
+        // Recorro el List de Cinemas, guardo y agrupo el nombre de las provincias
+        //  y lo guardo en resul que es un map de un List y un String
         Map<String, List<Cinema>> resul = cinemas.stream()
                 .collect(Collectors.groupingBy(Cinema::getProvincia));
+        // Borro el primero porque siempre es null
         resul.remove("--");
+        // Recorro el resul y agrupo por nombres de provincias y hago el size de ellas para ahorrarme un count
         resul.forEach((k,v) -> set1.getData().add(new XYChart.Data(k,v.size())));
 
         barChart.getData().addAll(set1);
+        // Al set creado se le puede poner una leyenda
         set1.setName("Provincies");
     }
 
+    // En esta clase cargo todas las Peliculas y guardo los trailers y los titulos en listaTitulos y listaTrailers,
+    // este listaTitulos lo meto en una observableList y a partir de esta el ListView recibe los datos
+    // (es el unico que meto en la observable porque es el unico que quiero que se vean los datos a más tiempo real posible)
     void loadFilms() throws IOException, JAXBException {
         readerXML = new ReaderXML();
         readerXML.listFilms();
@@ -157,13 +155,10 @@ public class SampleController implements Initializable {
         for (String titulosFilm: listaTitulos) {
             observableList.addAll(String.valueOf(titulosFilm));
         }
-
-
-
-
-
     }
 
+    // En esta clase cargo todas las Sessiones y guardo la fecha de sesion en listaFechasSession,
+    // este listaFechasSession lo meto en una observableList y a partir de esta el ListView recibe los datos
     void loadSessions() throws IOException, JAXBException {
         readerXML = new ReaderXML();
         readerXML.listSessions();
@@ -176,6 +171,8 @@ public class SampleController implements Initializable {
         }
     }
 
+    // En esta clase cargo todos los Cines y guardo su titulo en listTitulos,
+    // este listTitulos lo meto en una observableList y a partir de esta el ListView recibe los datos
     void loadCinemas() throws IOException, JAXBException {
         readerXML = new ReaderXML();
         readerXML.listCinemas();
@@ -189,6 +186,8 @@ public class SampleController implements Initializable {
         }
     }
 
+    // En esta clase cargo todos los ciclos y guardo su nombre en listTitulos,
+    // este listTitulos lo meto en una observableList y a partir de esta el ListView recibe los datos
     void loadCicles() throws IOException, JAXBException {
         readerXML = new ReaderXML();
         readerXML.listCicles();
@@ -205,12 +204,17 @@ public class SampleController implements Initializable {
     //TODO mvn compile assembly:single
 
     public void onClick(MouseEvent mouseEvent) throws IOException, JAXBException {
+        //Aqui guardo en un string la pelicula que he hecho click
         String film= listView.getSelectionModel().getSelectedItem();
         for (Film f: films) {
             System.out.println(f.getTitol());
+            // Y dentro de este forEach comparo toda la lista de peliculas con el string de la pelicula seleccionada
             if (f.getTitol().equals(film)){
+                // Para poner la imagen de la peli segun el titulo seleccionado
                 img01.setImage(new Image("http://gencat.cat/llengua/cinema/"+f.getCartell()));
+                // Para cambiar el texto segun la pelicula a la que he hecho click
                 textField.setText(film+"\n"+"DIRECCIO: "+f.getDireccio());
+                // Para que salga el trailer de la pelicula que he hecho click
                 webView.getEngine().load("https://www.youtube.com/embed/"+f.getTrailer()+"?autoplay=1");
             }
         }

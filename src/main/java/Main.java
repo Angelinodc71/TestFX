@@ -18,9 +18,13 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
+        // Cargo el fxml
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("sample.fxml")));
-        stage.setTitle("HOLA GUAPO");
-        stage.setScene(new Scene(root, 1200, 800));
+        // Le pongo un titulo al stage que se abre
+        stage.setTitle("MP3-UF5-A4 Aplicació Cinema amb JavaFX");
+        // Le pongo un tamaño a mi escena
+        stage.setScene(new Scene(root, 1400, 800));
+        // Muestro el stage
         stage.show();
     }
 }

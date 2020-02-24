@@ -25,20 +25,20 @@
             </BarChart>
          </content>
       </Tab>
-      <Tab text="Tab 2">
+      <Tab text="Films">
          <content>
             <AnchorPane prefHeight="200.0" prefWidth="200.0">
                <children>
                   <ListView fx:id="listView" onMouseClicked="#onClick" prefHeight="570.0" prefWidth="736.0" />
                   <Text fx:id="textField" layoutX="245.0" layoutY="649.0" text="No hay ninguna pelicula seleccionada" />
                   <ImageView fx:id="img01" fitHeight="150.0" fitWidth="200.0" layoutX="14.0" layoutY="570.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="522.0" AnchorPane.topAnchor="570.0" />
-                  <WebView fx:id="webView" layoutX="736.0" layoutY="265.0" prefHeight="200.0" prefWidth="350.0" />
+                  <WebView fx:id="webView" layoutX="790.0" layoutY="262.0" prefHeight="200.0" prefWidth="350.0" />
 
                </children>
             </AnchorPane>
          </content>
       </Tab>
-       <Tab text="Tab 3">
+       <Tab text="Cinemas">
            <content>
                <AnchorPane prefHeight="200.0" prefWidth="200.0">
                    <children>
@@ -48,7 +48,7 @@
                </AnchorPane>
            </content>
        </Tab>
-       <Tab text="Tab 3">
+       <Tab text="Cicles">
            <content>
                <AnchorPane prefHeight="200.0" prefWidth="200.0">
                    <children>
